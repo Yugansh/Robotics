@@ -43,7 +43,7 @@ Robot-Club/
 
 - Arduino Mega 2560
 - 4x High-torque servo motors (MG996R)
-- 16x16 LED matrix (MAX7219 or similar)
+- 16x16 LED matrix (WS2812B or similar)
 - Heavy-duty cardboard sheets (100cm x 150cm)
 - Wooden dowels and structural support
 - Jumper wires

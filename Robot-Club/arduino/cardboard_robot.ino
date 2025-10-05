@@ -4,22 +4,21 @@
  * 
  * Features:
  * - Servo motor control for movement
- * - 8x8 LED matrix display with MAX7219
+ * - 8x8 LED matrix display with WS2812B
  * - Serial communication for Python control
  * - Drawing patterns and animations
  */
 
 #include <Servo.h>
-#include <LedControl.h>
+#include <FastLED.h>
 
 // Servo motor pins
 #define LEFT_SERVO_PIN 9
 #define RIGHT_SERVO_PIN 10
 
-// LED Matrix pins (MAX7219) - 16x16 matrix
-#define LED_DIN_PIN 11
-#define LED_CS_PIN 12
-#define LED_CLK_PIN 13
+// LED Matrix pins (WS2812B) - 16x16 matrix
+#define LED_PIN 11
+#define NUM_LEDS 256  // 16x16 matrix
 
 // Servo objects - 4 servos for large robot
 Servo leftServo;
@@ -28,7 +27,7 @@ Servo frontServo;
 Servo backServo;
 
 // LED Matrix object - 16x16 matrix
-LedControl ledMatrix = LedControl(LED_DIN_PIN, LED_CLK_PIN, LED_CS_PIN, 1);
+CRGB leds[NUM_LEDS];
 
 // Movement constants
 #define STOP_ANGLE 90
@@ -109,9 +108,10 @@ void setup() {
   rightServo.attach(RIGHT_SERVO_PIN);
   
   // Initialize LED matrix
-  ledMatrix.shutdown(0, false);
-  ledMatrix.setIntensity(0, 8);
-  ledMatrix.clearDisplay(0);
+  FastLED.addLeds<WS2812B, LED_PIN, GRB>(leds, NUM_LEDS);
+  FastLED.setBrightness(50);
+  FastLED.clear();
+  FastLED.show();
   
   // Center servos
   leftServo.write(STOP_ANGLE);
@@ -220,13 +220,29 @@ void stopMovement() {
 }
 
 void displayPattern(byte pattern[8]) {
-  for (int i = 0; i < 8; i++) {
-    ledMatrix.setRow(0, i, pattern[i]);
+  // Convert 8x8 pattern to 16x16 display
+  for (int y = 0; y < 8; y++) {
+    for (int x = 0; x < 8; x++) {
+      if (pattern[y] & (0x80 >> x)) {
+        // Set pixel and its mirror for 16x16 display
+        int led1 = y * 16 + x;
+        int led2 = y * 16 + (15 - x);
+        int led3 = (15 - y) * 16 + x;
+        int led4 = (15 - y) * 16 + (15 - x);
+        
+        if (led1 < NUM_LEDS) leds[led1] = CRGB::White;
+        if (led2 < NUM_LEDS) leds[led2] = CRGB::White;
+        if (led3 < NUM_LEDS) leds[led3] = CRGB::White;
+        if (led4 < NUM_LEDS) leds[led4] = CRGB::White;
+      }
+    }
   }
+  FastLED.show();
 }
 
 void clearDisplay() {
-  ledMatrix.clearDisplay(0);
+  FastLED.clear();
+  FastLED.show();
 }
 
 void setSpeed(int speed) {
@@ -256,14 +272,20 @@ void animateSmiley() {
 
 // Drawing functions for LED matrix
 void drawPixel(int x, int y) {
-  if (x >= 0 && x < 8 && y >= 0 && y < 8) {
-    ledMatrix.setLed(0, y, x, true);
+  if (x >= 0 && x < 16 && y >= 0 && y < 16) {
+    int ledIndex = y * 16 + x;
+    if (ledIndex < NUM_LEDS) {
+      leds[ledIndex] = CRGB::White;
+    }
   }
 }
 
 void clearPixel(int x, int y) {
-  if (x >= 0 && x < 8 && y >= 0 && y < 8) {
-    ledMatrix.setLed(0, y, x, false);
+  if (x >= 0 && x < 16 && y >= 0 && y < 16) {
+    int ledIndex = y * 16 + x;
+    if (ledIndex < NUM_LEDS) {
+      leds[ledIndex] = CRGB::Black;
+    }
   }
 }
 
@@ -287,6 +309,7 @@ void drawLine(int x1, int y1, int x2, int y2) {
       y1 += sy;
     }
   }
+  FastLED.show();
 }
 
 void drawCircle(int centerX, int centerY, int radius) {
@@ -297,4 +320,5 @@ void drawCircle(int centerX, int centerY, int radius) {
       }
     }
   }
+  FastLED.show();
 }

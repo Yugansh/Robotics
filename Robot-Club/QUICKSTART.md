@@ -51,7 +51,7 @@ robot.disconnect()
 
 ### LED Matrix Not Working
 - Check DIN, CS, CLK connections
-- Verify MAX7219 wiring
+- Verify WS2812B wiring
 - Test with simple pattern
 
 ### Python Connection Issues

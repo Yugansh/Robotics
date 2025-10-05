@@ -8,12 +8,10 @@
 - **Servo Power**: 5V
 - **Servo Ground**: GND
 
-### LED Matrix (MAX7219)
+### LED Matrix (WS2812B)
 - **VCC**: 5V
 - **GND**: GND
 - **DIN**: Digital Pin 11
-- **CS**: Digital Pin 10
-- **CLK**: Digital Pin 13
 
 ### Power
 - **9V Battery**: Connected to Arduino VIN pin
@@ -26,20 +24,16 @@ Arduino Uno/Nano
 ├── Pin 9  → Left Servo Signal (Orange/Yellow wire)
 ├── Pin 10 → Right Servo Signal (Orange/Yellow wire)
 ├── Pin 11 → LED Matrix DIN
-├── Pin 12 → LED Matrix CS
-├── Pin 13 → LED Matrix CLK
 ├── 5V     → Servo Power (Red wires) + LED Matrix VCC
 └── GND    → All Ground connections (Black/Brown wires)
 ```
 
 ## LED Matrix Connection Details
 
-The MAX7219 LED matrix typically comes with these pins:
+The WS2812B LED matrix typically comes with these pins:
 - **VCC** (Power) → Arduino 5V
 - **GND** (Ground) → Arduino GND
 - **DIN** (Data In) → Arduino Pin 11
-- **CS** (Chip Select) → Arduino Pin 12
-- **CLK** (Clock) → Arduino Pin 13
 
 ## Servo Motor Connections
 
@@ -52,7 +46,7 @@ Each servo motor has three wires:
 
 - **Arduino**: Can be powered via USB or 9V battery
 - **Servos**: Require 5V, can be powered from Arduino's 5V pin
-- **LED Matrix**: Requires 5V, can be powered from Arduino's 5V pin
+- **LED Matrix**: Requires 5V, can be powered from Arduino's 5V pin (WS2812B draws more current)
 - **Total Current**: Ensure 9V battery can provide at least 1A
 
 ## Safety Notes
@@ -67,7 +61,7 @@ Each servo motor has three wires:
 
 ### Common Issues
 - **Servos not moving**: Check power and signal connections
-- **LED matrix not working**: Verify DIN, CS, CLK connections
+- **LED matrix not working**: Verify DIN connection and power supply
 - **Arduino not responding**: Check power and USB connection
 - **Erratic behavior**: Check for loose connections
 

@@ -14,7 +14,7 @@
 ## Materials Needed
 - Heavy-duty cardboard: 2 sheets (100cm x 150cm)
 - Arduino Mega 2560
-- 16x16 LED Matrix (MAX7219)
+- 16x16 LED Matrix (WS2812B)
 - Acrylic sheet (25cm x 25cm)
 - Mounting brackets (8x)
 - M8 bolts and nuts (4x)

@@ -5,7 +5,7 @@
 ### Core Components
 - **Arduino Mega 2560** - Main microcontroller (more pins for large robot)
 - **4x High-Torque Servo Motors (MG996R)** - For mechanical movement (stronger for large robot)
-- **16x16 LED Matrix with MAX7219** - Larger display for big robot
+- **16x16 LED Matrix with WS2812B** - Larger display for big robot
 - **Large Breadboard** - For prototyping and connections
 - **Jumper Wires** - Various lengths for connections
 - **12V 7Ah Battery** - Power source for large robot
